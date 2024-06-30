@@ -1,0 +1,139 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  test-node-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache-dependency-path: ./package-lock.json
+          node-version: 20
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Compare Directories
+        run: |
+          if [ ! -d dist/ ]; then
+            echo "Expected dist/ directory does not exist.  See status below:"
+            ls -la ./
+            exit 1
+          fi
+          if [ "$(git diff --ignore-space-at-eol --text dist/ | wc -l)" -gt "0" ]; then
+            echo "Detected uncommitted changes after build. See status below:"
+            git diff --ignore-space-at-eol --text dist/
+            exit 1
+          fi
+
+  test-github-action:
+    needs: test-node-build
+    runs-on: ubuntu-latest
+    env:
+      filename: discord-embed.json
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test Local Action
+        uses: ./
+        with:
+          released: true
+          changelog: "- port to 1.21\n\n**Full Changelog**: https://github.com/tristankechlo/RandomMobSizes/compare/1.20.6-2.2.0...1.21-2.2.0\n\n"
+          version: "1.20.4 - 2.0.0"
+          color: 27392
+          content: "<@&1052731702927163453>"
+          title: "New version for RandomMobSizes just released :exclamation:"
+          description: "The update is available for *Forge*, *Fabric* and *NeoForge*"
+          curseforge: "https://www.curseforge.com/minecraft/mc-mods/example-project"
+          modrinth: "https://modrinth.com/mod/example-project"
+          github: "https://github.com/tristankechlo/create-discord-embed"
+          thumbnail: "https://cdn.modrinth.com/data/ccz0Dj7d/38df3132103baf5d4ef4a3f41e7ce6b305dfd3c6.png"
+          filename: ${{ env.filename }}
+          curseforge-emoji: "<:curseforge:000000000000001>"
+          avatar-url: "just a long link to an image"
+        
+      - name: check if file is present
+        shell: bash
+        run: |
+          FILE=./${{ env.filename }}
+          if [ -f "$FILE" ]; then
+              echo "$FILE exists."
+          else 
+              echo "$FILE does not exist."
+              exit 1
+          fi
+
+      - name: check file content
+        shell: bash
+        run: |
+          COLOR="27392"
+          COLOR_READ="$(jq -r '.embeds[0].color' ./${{ env.filename }})"
+          if [[ "$COLOR" != "$COLOR_READ" ]]; then
+            echo "Property 'color' does not match the input"
+            echo "Expected: \'$COLOR\'"
+            echo "Actual:   \'$COLOR_READ\'"
+            exit 1
+          fi
+
+          SEARCH="Full Changelog"
+          FILECONTENT="$(cat ./${{ env.filename }})"
+          if [[ "$FILECONTENT" == *"$SEARCH"* ]]; then
+            echo "Changelog was not correctly split"
+            exit 1
+          fi
+
+      - name: verify emojis set
+        shell: bash
+        run: |
+          SEARCH="<:curseforge:000000000000001>"
+          FILECONTENT="$(cat ./${{ env.filename }})"
+          if [[ "$FILECONTENT" != *"$SEARCH"* ]]; then
+            echo "Curseforge Emoji was not set correctly"
+            exit 1
+          fi
+
+          SEARCH="<:modrinth:977251171980963890>"
+          if [[ "$FILECONTENT" != *"$SEARCH"* ]]; then
+            echo "Modrinth Emoji was not set correctly"
+            exit 1
+          fi
+
+      - name: verify username and avatar url
+        shell: bash
+        run: |
+          SEARCH="just a long link to an image"
+          FOUND="$(jq -r '.avatar_url' ./${{ env.filename }})"
+          if [[ "$SEARCH" != "$FOUND" ]]; then
+            echo "Property 'avatar_url' does not match the input"
+            echo "Expected: \'$SEARCH\'"
+            echo "Actual:   \'$FOUND\'"
+            exit 1
+          fi
+
+          SEARCH="TK's Mod Releases"
+          FOUND="$(jq -r '.username' ./${{ env.filename }})"
+          if [[ "$SEARCH" != "$FOUND" ]]; then
+            echo "Property 'username' does not match the input"
+            echo "Expected: \'$SEARCH\'"
+            echo "Actual:   \'$FOUND\'"
+            exit 1
+          fi
