@@ -47,27 +47,27 @@ inputs:
     required: true
     description: "the name of the file where the cull embed content will be saved"
     default: "embed.json"
-  curseforge-emoji: # added in v1.1.0
+  curseforge-emoji:
     required: false
     description: "emoji to use as the curseforge logo"
     default: "<:curseforge:938093919848267807>"
-  modrinth-emoji: # added in v1.1.0
+  modrinth-emoji:
     required: false
     description: "emoji to use as the modrinth logo"
     default: "<:modrinth:977251171980963890>"
-  github-emoji: # added in v1.1.0
+  github-emoji:
     required: false
     description: "emoji to use as the github logo"
     default: "<:github:938091396785639434>"
-  username: # added in v1.1.0
+  username:
     required: false
     description: "username of the webhook"
     default: "TK's Mod Releases"
-  avatar-url: # added in v1.1.0
+  avatar-url:
     required: false
     description: "url to the image, that is used as the avatar of the webhook"
     default: "https://cdn.modrinth.com/data/UKDLi1GJ/d345468b19bfd5ffffa1ed070297a6a74535e9d6.png"
-  changelog-split: # added in v1.1.0
+  changelog-split:
     required: false
     description: "if set, the provided changelog will be split at this position, only the first match will be used"
     default: "**Full Changelog**"
