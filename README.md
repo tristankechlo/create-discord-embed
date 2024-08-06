@@ -8,14 +8,13 @@ creates the json-representation of a custom discord embed, used in my workflows
 
 ```yaml
 - name: Test Local Action
-  uses: tristankechlo/create-discord-embed@v1.1.0
+  uses: tristankechlo/create-discord-embed@v1.0.1
   with:
 # required values
     released: true
     changelog: "full changelog of this release"
     version: "1.20.4 - 2.0.0"
     color: 27392
-    content: "This is the message before the embed"
     title: "This will be the title of the embed"
     description: "Description/Subtitle of the embed"
     curseforge: "link to the curseforge page of the project"
@@ -23,6 +22,7 @@ creates the json-representation of a custom discord embed, used in my workflows
     github: "link to the github repo of the project"
     thumbnail: "link to an image, used as a thumbnail in the embed"
 # optional values
+    content: "This is the message above the embed"
     filename: "embed.json"
     curseforge-emoji: "<:curseforge:938093919848267807>"
     modrinth-emoji: "<:modrinth:977251171980963890>"

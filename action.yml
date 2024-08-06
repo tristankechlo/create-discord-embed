@@ -21,9 +21,6 @@ inputs:
   color:
     required: true
     description: "the color of the discord embed"
-  content:
-    required: true
-    description: "the message content before the embed"
   title:
     required: true
     description: "title of the embed"
@@ -43,6 +40,10 @@ inputs:
     required: true
     description: "small thumbnail in the upper right corner of the embed"
 # optional fields
+  content:
+    required: false
+    description: "the message content above the embed"
+    default: ""
   filename:
     required: true
     description: "the name of the file where the cull embed content will be saved"

@@ -10,13 +10,13 @@ async function run(): Promise<void> {
     const changelog = core.getInput("changelog", { required: true });
     const version = core.getInput("version", { required: true });
     const color = Number.parseInt(core.getInput("color", { required: true }));
-    const content = core.getInput("content", { required: true });
     const title = core.getInput("title", { required: true });
     const description = core.getInput("description", { required: true });
     const curseforge = core.getInput("curseforge", { required: true });
     const modrinth = core.getInput("modrinth", { required: true });
     const github = core.getInput("github", { required: true });
     const thumbnail = core.getInput("thumbnail", { required: true });
+    const content = core.getInput("content");
     const curseforge_emoji = core.getInput("curseforge-emoji");
     const modrinth_emoji = core.getInput("modrinth-emoji");
     const github_emoji = core.getInput("github-emoji");

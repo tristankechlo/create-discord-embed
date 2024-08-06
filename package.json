@@ -1,7 +1,7 @@
 {
   "name": "create-discord-embed",
   "description": "creates the json-representation of a custom discord embed",
-  "version": "1.1.0",
+  "version": "1.0.1",
   "author": "tristankechlo",
   "exports": {
     ".": "./dist/index.js"
