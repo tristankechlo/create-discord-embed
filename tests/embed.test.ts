@@ -1,14 +1,9 @@
 import * as main from '../src/embed'
 import type { Inputs } from '../src/types';
 
-let fakeInputs: Inputs;
-
 describe('embed', () => {
-  beforeEach(() => {
-    fakeInputs = makeInputs();
-  })
-
   it('no changelog splitting', async () => {
+    const fakeInputs:Inputs = makeInputs();
     fakeInputs.changelog_split = "";
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
@@ -17,6 +12,7 @@ describe('embed', () => {
   })
 
   it('changelog splitting', async () => {
+    const fakeInputs:Inputs = makeInputs();
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
     expect(output.embeds[0].fields[0].name).toBe("Changelog");
@@ -24,6 +20,7 @@ describe('embed', () => {
   })
 
   it('do not release', async () => {
+    const fakeInputs:Inputs = makeInputs();
     fakeInputs.released = false
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
@@ -32,6 +29,7 @@ describe('embed', () => {
   })
 
   it('create release', async () => {
+    const fakeInputs:Inputs = makeInputs();
     fakeInputs.released = true
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
@@ -40,6 +38,7 @@ describe('embed', () => {
   })
 
   it('has content', async () => {
+    const fakeInputs:Inputs = makeInputs();
     fakeInputs.content = "this is the message content"
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
@@ -48,6 +47,7 @@ describe('embed', () => {
   })
 
   it('no content', async () => {
+    const fakeInputs:Inputs = makeInputs();
     fakeInputs.content = ""
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
