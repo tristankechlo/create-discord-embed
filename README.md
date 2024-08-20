@@ -7,7 +7,7 @@ creates the json-representation of a custom discord embed, used in my workflows
 ## Usage
 
 ```yaml
-- name: Test Local Action
+- name: Create the discord embed
   uses: tristankechlo/create-discord-embed@v1.0.1
   with:
 # required values
