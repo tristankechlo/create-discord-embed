@@ -3,7 +3,7 @@ import { makeEmbed } from "./embed";
 import { saveToFile } from "./util";
 import type { Inputs, WebhookMessage } from "./types";
 
-async function run(): Promise<void> {
+export async function run(): Promise<void> {
   try {
     // read inputs
     const released = core.getBooleanInput("released", { required: true });

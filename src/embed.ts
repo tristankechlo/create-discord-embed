@@ -1,5 +1,4 @@
-import { EmbedBuilder } from "discord.js";
-import type { Inputs, WebhookMessage } from "./types";
+import type { DiscordEmbed, Inputs, WebhookMessage } from "./types";
 
 export async function makeEmbed(inputs: Inputs): Promise<WebhookMessage> {
   // prepare variables
@@ -16,24 +15,28 @@ export async function makeEmbed(inputs: Inputs): Promise<WebhookMessage> {
   }
 
   // prepare embed
-  const embed = new EmbedBuilder();
-  embed.setColor(inputs.color);
-  embed.setThumbnail(inputs.thumbnail);
-  embed.setTimestamp(Date.now());
-  embed.setTitle(inputs.title);
-  embed.setDescription(inputs.description);
-  embed.addFields(
-    { name: "Changelog", value: changelog, inline: false },
-    { name: "Project Pages", value: pages, inline: true },
-    { name: "New Version", value: inputs.version, inline: true }
-  );
+  const embed: DiscordEmbed = {
+    color: inputs.color,
+    thumbnail: {
+      url: inputs.thumbnail
+    },
+    timestamp: new Date().toISOString(),
+    title: inputs.title,
+    description: inputs.description,
+    fields: [
+      { name: "Changelog", value: changelog, inline: false },
+      { name: "Project Pages", value: pages, inline: true },
+      { name: "New Version", value: inputs.version, inline: true }
+    ]
+  };
 
   // finalize json content
-  const message = {
+  const message: WebhookMessage = {
     username: inputs.username,
     avatar_url: inputs.avatar_url,
+    content: "",
     embeds: [embed]
-  } as WebhookMessage;
+  };
 
   if (inputs.content.length > 0) {
     message['content'] = inputs.content;
