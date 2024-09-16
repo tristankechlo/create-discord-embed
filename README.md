@@ -2,13 +2,13 @@
 
 [![Continuous Integration](https://github.com/tristankechlo/create-discord-embed/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/tristankechlo/create-discord-embed/actions/workflows/ci.yml)
 
-creates the json-representation of a custom discord embed, used in my workflows
+creates the json-representation of a custom discord embed, used in my workflows during building and publishing of my minecraft mods
 
 ## Usage
 
 ```yaml
 - name: Create the discord embed
-  uses: tristankechlo/create-discord-embed@v1.0.1
+  uses: tristankechlo/create-discord-embed@v1.0.2
   with:
 # required values
     released: true
@@ -24,7 +24,7 @@ creates the json-representation of a custom discord embed, used in my workflows
 # optional values
     content: "This is the message above the embed"
     filename: "embed.json"
-    curseforge-emoji: "<:curseforge:938093919848267807>"
+    curseforge-emoji: "<:curseforge:938093919848267807>"  # you need to provide the emojis from your server
     modrinth-emoji: "<:modrinth:977251171980963890>"
     github-emoji: "<:github:938091396785639434>"
     username: "the username of the webhook"
