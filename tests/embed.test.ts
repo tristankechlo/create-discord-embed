@@ -39,19 +39,12 @@ describe('embed', () => {
 
   it('has content', async () => {
     const fakeInputs:Inputs = makeInputs();
-    fakeInputs.content = "this is the message content"
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
     expect(output.content).not.toBe("");
-    expect(output.content).toBe(fakeInputs.content);
-  })
-
-  it('no content', async () => {
-    const fakeInputs:Inputs = makeInputs();
-    fakeInputs.content = ""
-    const output = await main.makeEmbed(fakeInputs);
-    expect(output).toBeDefined();
-    expect(output.content).toBe("");
+    expect(output.content).toContain(fakeInputs.version);
+    expect(output.content).toContain(fakeInputs.mention);
+    expect(output.content).toContain(fakeInputs.modName);
   })
 })
 
@@ -63,9 +56,9 @@ function makeInputs(): Inputs {
     changelog_split: "---",
     version: "1.18.2-2.0.0",
     color: 456789,
-    content: "this is the content of the message",
-    title: "title of the embed",
-    description: "description of the embed",
+    modName: "Example Mod",
+    mention: "<@&123456789012345678>",
+    parsedLoaders: ["forge", "fabric"],
     curseforge: "https://example.com/curseforge",
     modrinth: "https://example.com/modrinth",
     github: "https://example.com/github",

@@ -21,12 +21,12 @@ inputs:
   color:
     required: true
     description: "the color of the discord embed"
-  title:
+  loaders:
     required: true
-    description: "title of the embed"
-  description:
+    description: "which loaders are supported by this release (comma separated and lowercase, e.g. 'fabric,forge')"
+  mod-name:
     required: true
-    description: "subtitle of the embed"
+    description: "the name of the mod"
   curseforge:
     required: true
     description: "link to the curseforge page of the project"
@@ -40,9 +40,9 @@ inputs:
     required: true
     description: "small thumbnail in the upper right corner of the embed"
 # optional fields
-  content:
+  mention:
     required: false
-    description: "the message content above the embed"
+    description: "the discord role to mention when posting the embed (formatted like <@&roleid>)"
     default: ""
   filename:
     required: true
