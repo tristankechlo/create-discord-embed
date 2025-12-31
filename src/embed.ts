@@ -45,7 +45,7 @@ export async function makeEmbed(inputs: Inputs): Promise<WebhookMessage> {
   };
 
   let content = `Version **${inputs.version}** of **${inputs.modName}** is now available!`;
-  if (inputs.mention.length > 0) {
+  if (inputs.mention.length > 0 && inputs.released === true) {
     content = " " + inputs.mention;
   }
   if (content.length > 0) {
