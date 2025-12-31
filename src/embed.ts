@@ -14,6 +14,13 @@ export async function makeEmbed(inputs: Inputs): Promise<WebhookMessage> {
     pages += `\n${inputs.modrinth_emoji} [Modrinth](${inputs.modrinth})`;
   }
 
+  let loaders = "";
+  if (inputs.parsedLoaders.length > 0) {
+    loaders = "- " + inputs.parsedLoaders.join("\n- ");
+  } else {
+    loaders = "None";
+  }
+
   // prepare embed
   const embed: DiscordEmbed = {
     color: inputs.color,
@@ -21,12 +28,11 @@ export async function makeEmbed(inputs: Inputs): Promise<WebhookMessage> {
       url: inputs.thumbnail
     },
     timestamp: new Date().toISOString(),
-    title: inputs.title,
-    description: inputs.description,
+    title: `New version for ${inputs.modName} just released!`,
     fields: [
       { name: "Changelog", value: changelog, inline: false },
+      { name: "Supported Loaders", value: loaders, inline: true },
       { name: "Project Pages", value: pages, inline: true },
-      { name: "New Version", value: inputs.version, inline: true }
     ]
   };
 
@@ -38,8 +44,12 @@ export async function makeEmbed(inputs: Inputs): Promise<WebhookMessage> {
     embeds: [embed]
   };
 
-  if (inputs.content.length > 0) {
-    message['content'] = inputs.content;
+  let content = `Version **${inputs.version}** of **${inputs.modName}** is now available!`;
+  if (inputs.mention.length > 0 && inputs.released === true) {
+    content += " " + inputs.mention;
+  }
+  if (content.length > 0) {
+    message['content'] = content;
   }
   return message;
 }

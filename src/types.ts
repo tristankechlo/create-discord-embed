@@ -4,9 +4,9 @@ export interface Inputs {
   changelog_split: string;
   version: string;
   color: number;
-  content: string;
-  title: string;
-  description: string;
+  modName: string;
+  mention: string;
+  parsedLoaders: Array<string>;
   curseforge: string;
   modrinth: string;
   github: string;
@@ -27,7 +27,6 @@ export interface WebhookMessage {
 
 export interface DiscordEmbed {
   title: string;
-  description: string;
   color: number;
   timestamp: string;
   thumbnail: DiscordEmbedImage;

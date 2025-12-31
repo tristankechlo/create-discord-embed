@@ -3,7 +3,7 @@ import type { Inputs } from '../src/types';
 
 describe('embed', () => {
   it('no changelog splitting', async () => {
-    const fakeInputs:Inputs = makeInputs();
+    const fakeInputs: Inputs = makeInputs();
     fakeInputs.changelog_split = "";
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
@@ -12,7 +12,7 @@ describe('embed', () => {
   })
 
   it('changelog splitting', async () => {
-    const fakeInputs:Inputs = makeInputs();
+    const fakeInputs: Inputs = makeInputs();
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
     expect(output.embeds[0].fields[0].name).toBe("Changelog");
@@ -20,38 +20,31 @@ describe('embed', () => {
   })
 
   it('do not release', async () => {
-    const fakeInputs:Inputs = makeInputs();
+    const fakeInputs: Inputs = makeInputs();
     fakeInputs.released = false
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
-    expect(output.embeds[0].fields[1].name).toBe("Project Pages");
-    expect(output.embeds[0].fields[1].value).not.toContain("\n");
+    expect(output.embeds[0].fields[2].name).toBe("Project Pages");
+    expect(output.embeds[0].fields[2].value).not.toContain("\n");
   })
 
   it('create release', async () => {
-    const fakeInputs:Inputs = makeInputs();
+    const fakeInputs: Inputs = makeInputs();
     fakeInputs.released = true
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
-    expect(output.embeds[0].fields[1].name).toBe("Project Pages");
-    expect(output.embeds[0].fields[1].value).toContain("\n");
+    expect(output.embeds[0].fields[2].name).toBe("Project Pages");
+    expect(output.embeds[0].fields[2].value).toContain("\n");
   })
 
   it('has content', async () => {
-    const fakeInputs:Inputs = makeInputs();
-    fakeInputs.content = "this is the message content"
+    const fakeInputs: Inputs = makeInputs();
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
     expect(output.content).not.toBe("");
-    expect(output.content).toBe(fakeInputs.content);
-  })
-
-  it('no content', async () => {
-    const fakeInputs:Inputs = makeInputs();
-    fakeInputs.content = ""
-    const output = await main.makeEmbed(fakeInputs);
-    expect(output).toBeDefined();
-    expect(output.content).toBe("");
+    expect(output.content).toContain(fakeInputs.version);
+    expect(output.content).toContain(fakeInputs.mention);
+    expect(output.content).toContain(fakeInputs.modName);
   })
 })
 
@@ -63,9 +56,9 @@ function makeInputs(): Inputs {
     changelog_split: "---",
     version: "1.18.2-2.0.0",
     color: 456789,
-    content: "this is the content of the message",
-    title: "title of the embed",
-    description: "description of the embed",
+    modName: "Example Mod",
+    mention: "<@&123456789012345678>",
+    parsedLoaders: ["forge", "fabric"],
     curseforge: "https://example.com/curseforge",
     modrinth: "https://example.com/modrinth",
     github: "https://example.com/github",

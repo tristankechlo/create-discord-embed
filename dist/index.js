@@ -24947,6 +24947,13 @@ async function makeEmbed(inputs) {
         pages += `\n${inputs.curseforge_emoji} [Curseforge](${inputs.curseforge})`;
         pages += `\n${inputs.modrinth_emoji} [Modrinth](${inputs.modrinth})`;
     }
+    let loaders = "";
+    if (inputs.parsedLoaders.length > 0) {
+        loaders = "- " + inputs.parsedLoaders.join("\n- ");
+    }
+    else {
+        loaders = "None";
+    }
     // prepare embed
     const embed = {
         color: inputs.color,
@@ -24954,12 +24961,11 @@ async function makeEmbed(inputs) {
             url: inputs.thumbnail
         },
         timestamp: new Date().toISOString(),
-        title: inputs.title,
-        description: inputs.description,
+        title: `New version for ${inputs.modName} just released!`,
         fields: [
             { name: "Changelog", value: changelog, inline: false },
+            { name: "Supported Loaders", value: loaders, inline: true },
             { name: "Project Pages", value: pages, inline: true },
-            { name: "New Version", value: inputs.version, inline: true }
         ]
     };
     // finalize json content
@@ -24969,8 +24975,12 @@ async function makeEmbed(inputs) {
         content: "",
         embeds: [embed]
     };
-    if (inputs.content.length > 0) {
-        message['content'] = inputs.content;
+    let content = `Version **${inputs.version}** of **${inputs.modName}** is now available!`;
+    if (inputs.mention.length > 0 && inputs.released === true) {
+        content += " " + inputs.mention;
+    }
+    if (content.length > 0) {
+        message['content'] = content;
     }
     return message;
 }
@@ -25016,22 +25026,23 @@ async function run() {
         // read inputs
         const released = core.getBooleanInput("released", { required: true });
         const changelog = core.getInput("changelog", { required: true });
+        const changelog_split = core.getInput("changelog-split");
         const version = core.getInput("version", { required: true });
         const color = Number.parseInt(core.getInput("color", { required: true }));
-        const title = core.getInput("title", { required: true });
-        const description = core.getInput("description", { required: true });
+        const modName = core.getInput("mod-name", { required: true });
+        const mention = core.getInput("mention");
+        const loaders = core.getInput("loaders", { required: true });
         const curseforge = core.getInput("curseforge", { required: true });
         const modrinth = core.getInput("modrinth", { required: true });
         const github = core.getInput("github", { required: true });
         const thumbnail = core.getInput("thumbnail", { required: true });
-        const content = core.getInput("content");
         const curseforge_emoji = core.getInput("curseforge-emoji");
         const modrinth_emoji = core.getInput("modrinth-emoji");
         const github_emoji = core.getInput("github-emoji");
         const username = core.getInput("username");
         const avatar_url = core.getInput("avatar-url");
-        const changelog_split = core.getInput("changelog-split");
-        const inputs = { released, changelog, version, color, content, title, description, curseforge, modrinth, github, thumbnail, curseforge_emoji, modrinth_emoji, github_emoji, username, avatar_url, changelog_split };
+        const parsedLoaders = loaders.split(",").map(loader => loader.trim().toLowerCase());
+        const inputs = { released, changelog, version, color, modName, parsedLoaders, mention, curseforge, modrinth, github, thumbnail, curseforge_emoji, modrinth_emoji, github_emoji, username, avatar_url, changelog_split };
         // call handler
         const message = await (0, embed_1.makeEmbed)(inputs);
         // create github summary

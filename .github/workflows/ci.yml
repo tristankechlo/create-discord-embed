@@ -80,9 +80,9 @@ jobs:
           changelog: "- port to 1.21\n\n**Full Changelog**: https://github.com/tristankechlo/RandomMobSizes/compare/1.20.6-2.2.0...1.21-2.2.0\n\n"
           version: "1.20.4 - 2.0.0"
           color: 27392
-          content: "<@&1052731702927163453>"
-          title: "New version for RandomMobSizes just released :exclamation:"
-          description: "The update is available for *Forge*, *Fabric* and *NeoForge*"
+          mention: "<@&1052731702927163453>"
+          loaders: "forge,fabric"
+          mod-name: "LivingThings*"
           curseforge: "https://www.curseforge.com/minecraft/mc-mods/example-project"
           modrinth: "https://modrinth.com/mod/example-project"
           github: "https://github.com/tristankechlo/create-discord-embed"
