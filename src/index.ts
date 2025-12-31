@@ -20,7 +20,7 @@ export async function run(): Promise<void> {
     const modrinth = core.getInput("modrinth", { required: true });
     const github = core.getInput("github", { required: true });
     const thumbnail = core.getInput("thumbnail", { required: true });
-    
+
     const curseforge_emoji = core.getInput("curseforge-emoji");
     const modrinth_emoji = core.getInput("modrinth-emoji");
     const github_emoji = core.getInput("github-emoji");

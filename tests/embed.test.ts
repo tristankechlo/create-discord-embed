@@ -3,7 +3,7 @@ import type { Inputs } from '../src/types';
 
 describe('embed', () => {
   it('no changelog splitting', async () => {
-    const fakeInputs:Inputs = makeInputs();
+    const fakeInputs: Inputs = makeInputs();
     fakeInputs.changelog_split = "";
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
@@ -12,7 +12,7 @@ describe('embed', () => {
   })
 
   it('changelog splitting', async () => {
-    const fakeInputs:Inputs = makeInputs();
+    const fakeInputs: Inputs = makeInputs();
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
     expect(output.embeds[0].fields[0].name).toBe("Changelog");
@@ -20,25 +20,25 @@ describe('embed', () => {
   })
 
   it('do not release', async () => {
-    const fakeInputs:Inputs = makeInputs();
+    const fakeInputs: Inputs = makeInputs();
     fakeInputs.released = false
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
-    expect(output.embeds[0].fields[1].name).toBe("Project Pages");
-    expect(output.embeds[0].fields[1].value).not.toContain("\n");
+    expect(output.embeds[0].fields[2].name).toBe("Project Pages");
+    expect(output.embeds[0].fields[2].value).not.toContain("\n");
   })
 
   it('create release', async () => {
-    const fakeInputs:Inputs = makeInputs();
+    const fakeInputs: Inputs = makeInputs();
     fakeInputs.released = true
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
-    expect(output.embeds[0].fields[1].name).toBe("Project Pages");
-    expect(output.embeds[0].fields[1].value).toContain("\n");
+    expect(output.embeds[0].fields[2].name).toBe("Project Pages");
+    expect(output.embeds[0].fields[2].value).toContain("\n");
   })
 
   it('has content', async () => {
-    const fakeInputs:Inputs = makeInputs();
+    const fakeInputs: Inputs = makeInputs();
     const output = await main.makeEmbed(fakeInputs);
     expect(output).toBeDefined();
     expect(output.content).not.toBe("");
