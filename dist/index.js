@@ -25041,7 +25041,7 @@ async function run() {
         const github_emoji = core.getInput("github-emoji");
         const username = core.getInput("username");
         const avatar_url = core.getInput("avatar-url");
-        const parsedLoaders = loaders.split(",").map(loader => loader.trim().toLowerCase());
+        const parsedLoaders = loaders.split(",").map(loader => loader.trim());
         const inputs = { released, changelog, version, color, modName, parsedLoaders, mention, curseforge, modrinth, github, thumbnail, curseforge_emoji, modrinth_emoji, github_emoji, username, avatar_url, changelog_split };
         // call handler
         const message = await (0, embed_1.makeEmbed)(inputs);

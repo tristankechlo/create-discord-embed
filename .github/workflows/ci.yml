@@ -81,7 +81,7 @@ jobs:
           version: "1.20.4 - 2.0.0"
           color: 27392
           mention: "<@&1052731702927163453>"
-          loaders: "forge,fabric"
+          loaders: "Forge,Fabric,NeoForge"
           mod-name: "LivingThings*"
           curseforge: "https://www.curseforge.com/minecraft/mc-mods/example-project"
           modrinth: "https://modrinth.com/mod/example-project"
